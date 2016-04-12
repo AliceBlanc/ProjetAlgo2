@@ -54,15 +54,13 @@ void QuadTree::afficher() const
 void QuadTree::importer(const ImagePNG & img)
 {
     _taille = img.largeur() ; // par principe la largeur = longueur = 2^n
-    importerDepuis(img, 0,         0,         _taille/2, _racine.fils[0]);
-    importerDepuis(img, 0,         _taille/2, _taille/2, _racine.fils[1]);
-    importerDepuis(img, _taille/2, 0,         _taille/2, _racine.fils[2]);
-    importerDepuis(img, _taille/2, _taille/2, _taille/2, _racine.fils[3]);
     
+    // Utilise une fonction privée récursive pour décomposer l'image en quadtree
+    importerDepuis(img, 0, 0, _taille, &_racine);
     
-// À COMPLÉTER
 }
 
+//------------------------------------------------------------------------------
 void QuadTree::importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud) {
     if (taille > 1) {
         for (int i = 0 ;i < 4 ; ++i)
@@ -70,16 +68,18 @@ void QuadTree::importerDepuis(const ImagePNG & img, int x, int y, int taille, No
             unNoeud->fils[i] = new Noeud() ;
             unNoeud->fils[i]->pere = unNoeud ;
         }
-        std::vector<Couleur> couleursFils ;
         importerDepuis(img, x,           y,           _taille/2, unNoeud->fils[0]);
         importerDepuis(img, x,           y+_taille/2, _taille/2, unNoeud->fils[1]);
         importerDepuis(img, x+_taille/2, y,           _taille/2, unNoeud->fils[2]);
         importerDepuis(img, x+_taille/2, y+_taille/2, _taille/2, unNoeud->fils[3]);
+        // Calcul de la couleur moyenne des fils
+        std::vector<Couleur> couleursFils ;
         for(int i = 0 ; i < 4 ; ++i) {
             couleursFils.push_back(unNoeud->fils[i]->rvb) ;
         }
         unNoeud->rvb = moyenne(couleursFils) ;
     } else {
+        // Si la taille est de 1, alors c'est un pixel. Récupérer la couleur du pixel de l'image.
         unNoeud->rvb = img.lirePixel(x, y) ;
     }
 }
