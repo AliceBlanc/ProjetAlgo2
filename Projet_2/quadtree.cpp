@@ -70,11 +70,15 @@ void QuadTree::importerDepuis(const ImagePNG & img, int x, int y, int taille, No
             unNoeud->fils[i] = new Noeud() ;
             unNoeud->fils[i]->pere = unNoeud ;
         }
+        std::vector<Couleur> couleursFils ;
         importerDepuis(img, x,           y,           _taille/2, unNoeud->fils[0]);
         importerDepuis(img, x,           y+_taille/2, _taille/2, unNoeud->fils[1]);
         importerDepuis(img, x+_taille/2, y,           _taille/2, unNoeud->fils[2]);
         importerDepuis(img, x+_taille/2, y+_taille/2, _taille/2, unNoeud->fils[3]);
-        
+        for(int i = 0 ; i < 4 ; ++i) {
+            couleursFils.push_back(unNoeud->fils[i]->rvb) ;
+        }
+        unNoeud->rvb = moyenne(couleursFils) ;
     } else {
         unNoeud->rvb = img.lirePixel(x, y) ;
     }
