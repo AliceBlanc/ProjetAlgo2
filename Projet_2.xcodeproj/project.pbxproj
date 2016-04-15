@@ -11,6 +11,7 @@
 		00B7A3981CB6DA4500DA94C5 /* test_quadtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A3931CB6DA4500DA94C5 /* test_quadtree.cpp */; };
 		00B7A39F1CB79CBC00DA94C5 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A39D1CB79CBC00DA94C5 /* lodepng.cpp */; };
 		0957E7F81CC1078500B7A75F /* liblodepng32.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0957E7F71CC1078500B7A75F /* liblodepng32.a */; };
+		0957E7FA1CC11DC500B7A75F /* imagepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0957E7F91CC11DC500B7A75F /* imagepng.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,7 @@
 		00B7A39D1CB79CBC00DA94C5 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		00B7A39E1CB79CBC00DA94C5 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		0957E7F71CC1078500B7A75F /* liblodepng32.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblodepng32.a; path = Projet_2/liblodepng32.a; sourceTree = "<group>"; };
+		0957E7F91CC11DC500B7A75F /* imagepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imagepng.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				00B7A3941CB6DA4500DA94C5 /* quadtree.hpp */,
 				00B7A3921CB6DA4500DA94C5 /* quadtree.cpp */,
 				00B7A3951CB6DA4500DA94C5 /* imagepng.hpp */,
+				0957E7F91CC11DC500B7A75F /* imagepng.cpp */,
 				00B7A3931CB6DA4500DA94C5 /* test_quadtree.cpp */,
 				00B7A3961CB6DA4500DA94C5 /* test_imagepng.cpp */,
 			);
@@ -137,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00B7A3981CB6DA4500DA94C5 /* test_quadtree.cpp in Sources */,
+				0957E7FA1CC11DC500B7A75F /* imagepng.cpp in Sources */,
 				00B7A39F1CB79CBC00DA94C5 /* lodepng.cpp in Sources */,
 				00B7A3971CB6DA4500DA94C5 /* quadtree.cpp in Sources */,
 			);
