@@ -117,6 +117,12 @@ class QuadTree
     
         //Fonction importer depuis
         void importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud);
+    
+        //Fonction estPere
+        bool estPere(Noeud unNoeud);
+    
+        //Fonction differenceLuminance
+        long differenceLuminance(Noeud unNoeud);
 };
 
 #endif

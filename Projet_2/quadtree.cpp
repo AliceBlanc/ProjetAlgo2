@@ -92,10 +92,33 @@ ImagePNG QuadTree::exporter() const
     return img;
 }
 
+bool QuadTree::estPere(Noeud unNoeud){
+    return unNoeud.fils[0]!=nullptr;
+}
+
 //------------------------------------------------------------------------------
 void QuadTree::compressionDelta(unsigned delta)
 {
-// À COMPLÉTER
+    long u = 0.0;
+    long temp;
+    Noeud unNoeud = _racine;
+    for(int i = 0; i < 4; i++){
+        while (estPere(*unNoeud.fils[i])) {
+            unNoeud = *unNoeud.fils[i];
+        }
+        for (int j = 0; j < 4; j++){
+            temp = (unNoeud.fils[j]->rvb.R + unNoeud.fils[j]->rvb.V + unNoeud.fils[j]->rvb.B) - (_racine.rvb.R + _racine.rvb.V + _racine.rvb.B);
+            temp = abs(temp) / 3;
+            if (temp > u) {
+                u = temp;
+            }
+        }
+    }
+    if(u <= delta){
+        for(int i = 0; i < 4; i++){
+            delete unNoeud.fils[i];
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
