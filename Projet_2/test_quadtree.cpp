@@ -10,7 +10,7 @@ int main()
     ImagePNG originale,compressee;
     QuadTree arbre;
 
-    fichier = "Projet_2/i.png";
+    fichier = "i.png";
     originale.charger(fichier);
 
     cout << endl << "-------------------------------------------------" << endl;
