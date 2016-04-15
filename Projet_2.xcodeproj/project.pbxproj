@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		00B7A3971CB6DA4500DA94C5 /* quadtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A3921CB6DA4500DA94C5 /* quadtree.cpp */; };
 		00B7A3981CB6DA4500DA94C5 /* test_quadtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A3931CB6DA4500DA94C5 /* test_quadtree.cpp */; };
-		00B7A3991CB6DA4500DA94C5 /* test_imagepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A3961CB6DA4500DA94C5 /* test_imagepng.cpp */; };
 		00B7A39F1CB79CBC00DA94C5 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00B7A39D1CB79CBC00DA94C5 /* lodepng.cpp */; };
+		0957E7F81CC1078500B7A75F /* liblodepng32.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0957E7F71CC1078500B7A75F /* liblodepng32.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +34,7 @@
 		00B7A3961CB6DA4500DA94C5 /* test_imagepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_imagepng.cpp; sourceTree = "<group>"; };
 		00B7A39D1CB79CBC00DA94C5 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		00B7A39E1CB79CBC00DA94C5 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
+		0957E7F71CC1078500B7A75F /* liblodepng32.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblodepng32.a; path = Projet_2/liblodepng32.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0957E7F81CC1078500B7A75F /* liblodepng32.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +52,7 @@
 		00B7A37F1CB6DA2F00DA94C5 = {
 			isa = PBXGroup;
 			children = (
+				0957E7F71CC1078500B7A75F /* liblodepng32.a */,
 				00B7A38A1CB6DA2F00DA94C5 /* Projet_2 */,
 				00B7A3891CB6DA2F00DA94C5 /* Products */,
 			);
@@ -135,7 +138,6 @@
 			files = (
 				00B7A3981CB6DA4500DA94C5 /* test_quadtree.cpp in Sources */,
 				00B7A39F1CB79CBC00DA94C5 /* lodepng.cpp in Sources */,
-				00B7A3991CB6DA4500DA94C5 /* test_imagepng.cpp in Sources */,
 				00B7A3971CB6DA4500DA94C5 /* quadtree.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +229,10 @@
 		00B7A3901CB6DA2F00DA94C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Projet_2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -234,6 +240,10 @@
 		00B7A3911CB6DA2F00DA94C5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Projet_2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
