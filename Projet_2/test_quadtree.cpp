@@ -1,7 +1,9 @@
 #include "imagepng.hpp"
 #include "quadtree.hpp"
 #include <iostream>
+#include <unistd.h>
 
+#define IMAGEPATH string("/Users/olivier/Developer/Alice/ProjetAlgo2/Projet_2/")
 using namespace std;
 
 int main()
@@ -10,7 +12,7 @@ int main()
     ImagePNG originale,compressee;
     QuadTree arbre;
 
-    fichier = "i.png";
+    fichier = IMAGEPATH+"i.png";
     originale.charger(fichier);
 
     cout << endl << "-------------------------------------------------" << endl;

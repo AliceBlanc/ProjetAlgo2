@@ -68,10 +68,10 @@ void QuadTree::importerDepuis(const ImagePNG & img, int x, int y, int taille, No
             unNoeud->fils[i] = new Noeud() ;
             unNoeud->fils[i]->pere = unNoeud ;
         }
-        importerDepuis(img, x,           y,           _taille/2, unNoeud->fils[0]);
-        importerDepuis(img, x,           y+_taille/2, _taille/2, unNoeud->fils[1]);
-        importerDepuis(img, x+_taille/2, y,           _taille/2, unNoeud->fils[2]);
-        importerDepuis(img, x+_taille/2, y+_taille/2, _taille/2, unNoeud->fils[3]);
+        importerDepuis(img, x,           y,           taille/2, unNoeud->fils[0]);
+        importerDepuis(img, x,           y+taille/2,  taille/2, unNoeud->fils[1]);
+        importerDepuis(img, x+taille/2,  y,           taille/2, unNoeud->fils[2]);
+        importerDepuis(img, x+taille/2,  y+taille/2,  taille/2, unNoeud->fils[3]);
         // Calcul de la couleur moyenne des fils
         std::vector<Couleur> couleursFils ;
         for(int i = 0 ; i < 4 ; ++i) {
