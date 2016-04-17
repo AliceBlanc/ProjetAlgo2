@@ -117,12 +117,16 @@ class QuadTree
     
         //Fonction importer depuis
         void importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud);
-    
+        void exporterVers(ImagePNG& img, int x, int y, int taille, const Noeud* noeud) const;
+        void ecrirePixels(ImagePNG& img, int x, int y, int taille, Couleur c) const ;
+
         //Fonction estPere
         bool estPere(Noeud unNoeud);
     
-        //Fonction differenceLuminance
-        long differenceLuminance(Noeud unNoeud);
+    
+        // Compression
+        void compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud) ;
+
 };
 
 #endif
