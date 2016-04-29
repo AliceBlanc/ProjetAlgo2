@@ -12,6 +12,8 @@
 
 #include <queue>
 #include <vector>
+#include <map>
+#include <set>
 #include "imagepng.hpp"
 
 /**
@@ -19,6 +21,8 @@
  * 
  * À COMPLÉTER
 **/
+
+typedef std::map<int, std::set<unsigned>> MAP_LUMINESCENCE_TO_PATH ;
 class QuadTree
 {
     public:
@@ -114,6 +118,8 @@ class QuadTree
         static void afficher_rec(const Noeud * n, std::string tabs="");
 
         // EN AJOUTER AU BESOIN ...
+        // Difference de luminescence
+        float differenceLuminescence(const Couleur& couleurF, const Couleur& couleurN ) const ;
     
         //Fonction importer depuis
         void importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud);
@@ -126,6 +132,8 @@ class QuadTree
     
         // Compression
         void compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud) ;
+        void rechercheLuminescences(Noeud*unNoeud, unsigned chemin, unsigned profondeur, MAP_LUMINESCENCE_TO_PATH &luminescences) ;
+
 
 };
 

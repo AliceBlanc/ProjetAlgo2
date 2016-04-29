@@ -160,7 +160,7 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
     if(! aDesPetitsEnfants) {// Verifier si l'arbre sous-jacent a des petits enfants (profondeur > 2)
         float max = 0.0f ;
         for (auto f : unNoeud->fils) {
-            float tmp = luminescence(f) ;
+            float tmp = differenceLuminescence(f->rvb, unNoeud->rvb) ;
             if(tmp > max)
                 max = tmp ;
         }
@@ -177,9 +177,32 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
 //------------------------------------------------------------------------------
 void QuadTree::compressionPhi(unsigned phi)
 {
+    MAP_LUMINESCENCE_TO_PATH luminescences ;
+    rechercheLuminescences(&_racine, 0, 0, luminescences) ;
+    cout << "OK" << endl ;
 // À COMPLÉTER
 }
 
+void QuadTree::rechercheLuminescences(Noeud* unNoeud,
+                                      unsigned chemin,
+                                      unsigned profondeur,
+                                      MAP_LUMINESCENCE_TO_PATH &luminescences)
+{
+    
+    if(unNoeud->pere) {
+        int curLuminescence = (int)differenceLuminescence(unNoeud->rvb, unNoeud->pere->rvb) ;
+        luminescences[curLuminescence].insert(chemin) ;
+    }
+    for (int i = 0 ; i < 4 ; ++i) {
+        if(unNoeud->fils[i]) {
+            rechercheLuminescences(unNoeud->fils[i],
+                                   (chemin<<2) | i ,
+                                   profondeur+1,
+                                   luminescences) ;
+        }
+    }
+    
+}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Fonctions facilitatrices (privées)
@@ -216,4 +239,10 @@ void QuadTree::compressionPhi(unsigned phi)
             afficher_rec(f,tabs+"   ");
         }
     }
+}
+
+//------------------------------------------------------------------------------
+float QuadTree::differenceLuminescence(const Couleur &couleurF, const Couleur &couleurN) const
+{
+    return abs(0.0+(couleurF.R+couleurF.V+couleurF.B)-(couleurN.R+couleurN.V+couleurN.B))/3.0 ;
 }
