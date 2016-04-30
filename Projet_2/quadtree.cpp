@@ -179,8 +179,10 @@ void QuadTree::compressionPhi(unsigned phi)
 {
     MAP_LUMINESCENCE_TO_PATH luminescences ;
     rechercheLuminescences(&_racine, 0, 0, luminescences) ;
-    cout << "OK" << endl ;
-// À COMPLÉTER
+    // À COMPLÉTER
+    for (int i = 0 ; i < phi ; ++i) {
+        
+    }
 }
 
 void QuadTree::rechercheLuminescences(Noeud* unNoeud,
@@ -188,19 +190,22 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
                                       unsigned profondeur,
                                       MAP_LUMINESCENCE_TO_PATH &luminescences)
 {
-    
-    if(unNoeud->pere) {
-        int curLuminescence = (int)differenceLuminescence(unNoeud->rvb, unNoeud->pere->rvb) ;
-        luminescences[curLuminescence].insert(chemin) ;
-    }
+    float max = -1 ;
     for (int i = 0 ; i < 4 ; ++i) {
         if(unNoeud->fils[i]) {
+            float tmp = differenceLuminescence(unNoeud->rvb,
+                                               unNoeud->fils[i]->rvb) ;
+            if(tmp > max )
+                max = tmp ;
+            
             rechercheLuminescences(unNoeud->fils[i],
                                    (chemin<<2) | i ,
                                    profondeur+1,
                                    luminescences) ;
         }
     }
+    if(max >= 0.0)
+        luminescences[(int) max].insert(chemin) ;
     
 }
 ////////////////////////////////////////////////////////////////////////////////
