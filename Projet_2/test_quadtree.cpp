@@ -51,5 +51,13 @@ int main()
     arbre.compressionPhi(4);
     arbre.afficher();
     compressee = arbre.exporter();
-    compressee.sauver(IMAGEPATH+"zip-p004-"+fichier);
+    compressee.sauver(IMAGEPATH+"zip-p04-"+fichier);
+    
+    cout << endl << "-------------------------------------------------" << endl;
+    cout << "Phi=750 :" << endl;
+    arbre.importer(originale);
+    arbre.compressionPhi(750);
+    //arbre.afficher();
+    compressee = arbre.exporter();
+    compressee.sauver(IMAGEPATH+"zip-p750-"+fichier);
 }
