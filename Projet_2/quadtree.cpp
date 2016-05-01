@@ -5,8 +5,6 @@
 #include "quadtree.hpp"
 
 
-#define luminescence(f) (abs(0.0f+((f)->rvb.R + (f)->rvb.V + (f)->rvb.B) - ((f)->pere->rvb.R + (f)->pere->rvb.V + (f)->pere->rvb.B))/3.0f)
-
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +148,7 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
         aDesPetitsEnfants = false ;
         for(auto f : unNoeud->fils) {
             compressionDeltaRecurse(delta, f) ;
-            // Refaire le calcul des petits enfants après la compression de l'arbre sous-jascent
+            // Refaire le calcul des petits enfants après la compression de l'arbre sous-jacent
             aDesPetitsEnfants = aDesPetitsEnfants | (f != nullptr && ( f->fils[0]!=nullptr || f->fils[1]!=nullptr || f->fils[2]!=nullptr || f->fils[3]!=nullptr)) ;
         }
     }
@@ -158,9 +156,9 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
     
     
     if(! aDesPetitsEnfants) {// Verifier si l'arbre sous-jacent a des petits enfants (profondeur > 2)
-        float max = 0.0f ;
+        float max = 0.0 ;
         for (auto f : unNoeud->fils) {
-            float tmp = differenceLuminescence(f->rvb, unNoeud->rvb) ;
+            float tmp = differenceLuminance(f->rvb, unNoeud->rvb) ;
             if(tmp > max)
                 max = tmp ;
         }
@@ -200,7 +198,7 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
     float max = -1 ;
     for (int i = 0 ; i < 4 ; ++i) {
         if(unNoeud->fils[i]) {
-            float tmp = differenceLuminescence(unNoeud->rvb,
+            float tmp = differenceLuminance(unNoeud->rvb,
                                                unNoeud->fils[i]->rvb) ;
             if(tmp > max )
                 max = tmp ;
@@ -256,7 +254,7 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
 }
 
 //------------------------------------------------------------------------------
-float QuadTree::differenceLuminescence(const Couleur &couleurF, const Couleur &couleurN) const
+float QuadTree::differenceLuminance(const Couleur &couleurF, const Couleur &couleurN) const
 {
     return abs(0.0+(couleurF.R+couleurF.V+couleurF.B)-(couleurN.R+couleurN.V+couleurN.B))/3.0 ;
 }

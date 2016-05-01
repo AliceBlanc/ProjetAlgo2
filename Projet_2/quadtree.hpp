@@ -119,7 +119,7 @@ class QuadTree
 
         // EN AJOUTER AU BESOIN ...
         // Difference de luminescence
-        float differenceLuminescence(const Couleur& couleurF, const Couleur& couleurN ) const ;
+        float differenceLuminance(const Couleur& couleurF, const Couleur& couleurN ) const ;
     
         //Fonction importer depuis
         void importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud);
