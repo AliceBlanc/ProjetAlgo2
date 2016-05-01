@@ -22,7 +22,7 @@
  * À COMPLÉTER
 **/
 
-typedef std::map<int, std::set<unsigned>> MAP_LUMINESCENCE_TO_PATH ;
+typedef std::map<int, std::set<void*>> MAP_LUMINESCENCE_TO_PATH ;
 class QuadTree
 {
     public:

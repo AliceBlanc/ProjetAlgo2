@@ -180,7 +180,12 @@ void QuadTree::compressionPhi(unsigned phi)
     MAP_LUMINESCENCE_TO_PATH luminescences ;
     rechercheLuminescences(&_racine, 0, 0, luminescences) ;
     // À COMPLÉTER
-    for (int i = 0 ; i < phi ; ++i) {
+    // Calcul du nombre de luminescences
+    int nLuminescences = 0;
+    for (std::map<int,std::set<void*>>::iterator it=luminescences.end(); it!=luminescences.begin(); --it)
+        nLuminescences += it->second.size();
+    
+        for (int i = 0 ; i < phi ; ++i) {
         
     }
 }
@@ -190,6 +195,8 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
                                       unsigned profondeur,
                                       MAP_LUMINESCENCE_TO_PATH &luminescences)
 {
+    bool aDesPetitsEnfants = false;
+    
     float max = -1 ;
     for (int i = 0 ; i < 4 ; ++i) {
         if(unNoeud->fils[i]) {
@@ -198,14 +205,16 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
             if(tmp > max )
                 max = tmp ;
             
+            aDesPetitsEnfants = aDesPetitsEnfants | (unNoeud->fils[i]->fils[0]!=nullptr || unNoeud->fils[i]->fils[1]!=nullptr || unNoeud->fils[i]->fils[2]!=nullptr || unNoeud->fils[i]->fils[3]!=nullptr) ;
+            
             rechercheLuminescences(unNoeud->fils[i],
                                    (chemin<<2) | i ,
                                    profondeur+1,
                                    luminescences) ;
         }
     }
-    if(max >= 0.0)
-        luminescences[(int) max].insert(chemin) ;
+    if(max >= 0.0 && ! aDesPetitsEnfants)
+        luminescences[(int) max].insert(unNoeud) ;
     
 }
 ////////////////////////////////////////////////////////////////////////////////
