@@ -173,19 +173,47 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
 }
 
 //------------------------------------------------------------------------------
+unsigned QuadTree::nbFeuilles(const Noeud* unNoeud) const
+{
+    if(unNoeud->fils[0] == nullptr && unNoeud->fils[1] == nullptr &&
+       unNoeud->fils[2] == nullptr && unNoeud->fils[3] == nullptr )
+        return 1 ;
+    
+    int nFils = 0 ;
+    for (auto f : unNoeud->fils) {
+        if(f != nullptr)
+            nFils += nbFeuilles(f) ;
+    }
+    return nFils ;
+}
+
 void QuadTree::compressionPhi(unsigned phi)
 {
-    MAP_LUMINESCENCE_TO_PATH luminescences ;
-    rechercheLuminescences(&_racine, 0, 0, luminescences) ;
+    int nLuminescences = 0;
+
+    do {
+        MAP_LUMINESCENCE_TO_PATH luminescences ;
+        rechercheLuminescences(&_racine, 0, 0, luminescences) ;
     // À COMPLÉTER
     // Calcul du nombre de luminescences
-    int nLuminescences = 0;
-    for (std::map<int,std::set<void*>>::iterator it=luminescences.end(); it!=luminescences.begin(); --it)
-        nLuminescences += it->second.size();
-    
-        for (int i = 0 ; i < phi ; ++i) {
+        nLuminescences = 0;
+
+        int nFeuilles =nbFeuilles(&_racine) ;
+        if(nFeuilles > phi) {
+            std::map<int,std::set<void*>>::iterator it=luminescences.begin() ;
+            std::set<void*> noeuds = it->second ;
+            for (set<void*>::iterator itNoeuds=noeuds.begin(); itNoeuds != noeuds.end(); ++itNoeuds) {
+                Noeud* unNoeud = (Noeud*)(*itNoeuds) ;
+                // Supprimer les dils du noeud.
+                for (int i = 0 ; i < 4 ; ++i) {
+                    delete unNoeud->fils[i] ;
+                    unNoeud->fils[i] = nullptr ;
+                }
+            }
+            
+        }
         
-    }
+    }while(nbFeuilles(&_racine) > phi) ;
 }
 
 void QuadTree::rechercheLuminescences(Noeud* unNoeud,
