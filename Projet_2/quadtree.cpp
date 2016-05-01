@@ -104,7 +104,7 @@ void QuadTree::exporterVers(ImagePNG& img, int x, int y, int taille, const Noeud
             if(unNoeud->fils[i]) {
                 exporterVers(img, x + ((i>>1)*(taille/2)), y + ((i&1)*taille/2), taille/2, unNoeud->fils[i] );
             } else {
-                ecrirePixels(img, x, y, taille/2, unNoeud->rvb) ;
+                ecrirePixels(img, x, y, taille, unNoeud->rvb) ;
             }
         }
 

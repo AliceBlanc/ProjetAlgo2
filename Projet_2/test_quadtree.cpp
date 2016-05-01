@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 
-#define IMAGEPATH string("/Users/olivier/Developer/Alice/ProjetAlgo2/Projet_2/")
+#define IMAGEPATH string("/Users/alice/Desktop/ProjetAlgo2/pngs/")
 
 using namespace std;
 
@@ -13,7 +13,7 @@ int main()
     ImagePNG originale,compressee;
     QuadTree arbre;
 
-    fichier = "i.png";
+    fichier = "64-tuxette.png";
     originale.charger(IMAGEPATH+fichier);
 
     cout << endl << "-------------------------------------------------" << endl;
@@ -29,6 +29,14 @@ int main()
     compressee = arbre.exporter();
     compressee.sauver(IMAGEPATH+"zip-d000-"+fichier);
 
+    cout << endl << "-------------------------------------------------" << endl;
+    cout << "Delta=64 :" << endl;
+    arbre.importer(originale);
+    arbre.compressionDelta(64);
+    arbre.afficher();
+    compressee = arbre.exporter();
+    compressee.sauver(IMAGEPATH+"zip-d64-"+fichier);
+    
     cout << endl << "-------------------------------------------------" << endl;
     cout << "Delta=128 :" << endl;
     arbre.importer(originale);
