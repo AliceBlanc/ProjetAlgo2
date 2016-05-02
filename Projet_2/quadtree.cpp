@@ -191,16 +191,12 @@ unsigned QuadTree::nbFeuilles(const Noeud* unNoeud) const
 
 void QuadTree::compressionPhi(unsigned phi)
 {
-    int nLuminescences = 0;
 
     do {
-        MAP_LUMINESCENCE_TO_PATH luminescences ;
-        rechercheLuminescences(&_racine, 0, 0, luminescences) ;
-    // À COMPLÉTER
-    // Calcul du nombre de luminescences
-        nLuminescences = 0;
+        MAP_LUMINANCE_TO_NOEUD luminescences ;
+        rechercheLuminances(&_racine, 0, 0, luminescences) ;
 
-        int nFeuilles =nbFeuilles(&_racine) ;
+        int nFeuilles = nbFeuilles(&_racine) ;
         if(nFeuilles > phi) {
             std::map<int,std::set<void*>>::iterator it=luminescences.begin() ;
             std::set<void*> noeuds = it->second ;
@@ -218,10 +214,10 @@ void QuadTree::compressionPhi(unsigned phi)
     }while(nbFeuilles(&_racine) > phi) ;
 }
 
-void QuadTree::rechercheLuminescences(Noeud* unNoeud,
+void QuadTree::rechercheLuminances(Noeud* unNoeud,
                                       unsigned chemin,
                                       unsigned profondeur,
-                                      MAP_LUMINESCENCE_TO_PATH &luminescences)
+                                      MAP_LUMINANCE_TO_NOEUD &luminescences)
 {
     bool aDesPetitsEnfants = false;
     
@@ -235,7 +231,7 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
             
             aDesPetitsEnfants = aDesPetitsEnfants | (unNoeud->fils[i]->fils[0]!=nullptr || unNoeud->fils[i]->fils[1]!=nullptr || unNoeud->fils[i]->fils[2]!=nullptr || unNoeud->fils[i]->fils[3]!=nullptr) ;
             
-            rechercheLuminescences(unNoeud->fils[i],
+            rechercheLuminances(unNoeud->fils[i],
                                    (chemin<<2) | i ,
                                    profondeur+1,
                                    luminescences) ;

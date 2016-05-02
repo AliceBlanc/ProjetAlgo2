@@ -37,59 +37,7 @@ clock_t chronom;
 #define TEMPS double(chronom)/CLOCKS_PER_SEC
 
 
-void complexiteTemporelleImporter(QuadTree arbre, ImagePNG originale){
-    
-    cout << "Fonction importer :" << endl;
-    // Lexique
-    //unsigned int i;           	// variable de boucle
-    unsigned int nb=1000;          	// nombres de répétitions pour l'analyse
-    double smoy, addition;                 // indicateurs statistiques de performance
-    smoy = 0.0;
-    for(int i = 0; i < nb; i++){
-        QuadTree arbreTemp ;
-            START;              	// démarrage du chronomètre
-    arbreTemp.importer(originale);
-            STOP;               	// arrêt du chronomètre
-            // Mise à jour de l'indicateur en fonction du résultat
-            addition += TEMPS;
-        //smoy = addition/nb;
-    
-    }
-    smoy=addition/nb ;
-        // Affichage des indicateurs statistiques calculés
-        //cout << "Analyse statistique (sur " << nb << " recherches, avec un anneau de taille " << tailleAnneau << " ) : " << endl;
-        cout << " - coût moyen   : " << smoy << "s " << arbre.T() << endl;
-}
-
-void complexiteTemporelleExporter(QuadTree arbre){
-    
-    ImagePNG image;
-    
-    cout << "Fonction exporter :" << endl;
-    // Lexique
-    //unsigned int i;           	// variable de boucle
-    unsigned int nb=10000;          	// nombres de répétitions pour l'analyse
-    double smoy, addition;                 // indicateurs statistiques de performance
-    
-    smoy = 0.0;   	// temps moyen sur tous les tirages
-    for (int i = 0; i < nb; i++){
-    START;              	// démarrage du chronomètre
-    image = arbre.exporter();
-    STOP;               	// arrêt du chronomètre
-    // Mise à jour de l'indicateur en fonction du résultat
-    addition += TEMPS;
-    //smoy = addition/nb;
-        
-    }
-    smoy=addition/nb;
-    // Affichage des indicateurs statistiques calculés
-    //cout << "Analyse statistique (sur " << nb << " recherches, avec un anneau de taille " << tailleAnneau << " ) : " << endl;
-    cout << " - coût moyen   : " << smoy << "s pour " << arbre.nbF() << endl;
-}
-
-void complexiteTemporelleDelta(QuadTree arbre){
-    ImagePNG image;
-    
+void complexiteTemporelleDelta(ImagePNG originale){
     cout << "Fonction compression delta :" << endl;
     // Lexique
     unsigned int nb=10000;          	// nombres de répétitions pour l'analyse
@@ -97,8 +45,12 @@ void complexiteTemporelleDelta(QuadTree arbre){
     
     smoy = 0.0;   	// temps moyen sur tous les tirages
     for(int delta=20;delta<500;delta++){
+        QuadTree arbre;
+        arbre.importer(originale);
+
     for (int i = 0; i < nb; i++){
-        START;              	// démarrage du chronomètre
+        
+                START;              	// démarrage du chronomètre
         arbre.compressionDelta(delta);
         STOP;               	// arrêt du chronomètre
         // Mise à jour de l'indicateur en fonction du résultat
@@ -109,7 +61,7 @@ void complexiteTemporelleDelta(QuadTree arbre){
     smoy=addition/nb;
     // Affichage des indicateurs statistiques calculés
     //cout << "Analyse statistique (sur " << nb << " recherches, avec un anneau de taille " << tailleAnneau << " ) : " << endl;
-    cout << " - coût moyen   : " << smoy << "s pour " << arbre.nbF() << endl;
+    cout << " - coût moyen   : " << smoy << "s pour " << endl;
 }
 
 int main()
@@ -123,7 +75,6 @@ int main()
 
     cout << endl << "-------------------------------------------------" << endl;
     cout << "Original :" << endl;
-    complexiteTemporelleImporter(arbre, originale);
     arbre.importer(originale);
     //arbre.afficher();
 
@@ -133,17 +84,15 @@ int main()
     arbre.compressionDelta(0);
     arbre.afficher();
     compressee = arbre.exporter();
-    complexiteTemporelleExporter(arbre);
     compressee.sauver(IMAGEPATH+"zip-d000-"+fichier);
 
     cout << endl << "-------------------------------------------------" << endl;
     cout << "Delta :" << endl;
     arbre.importer(originale);
-    //complexiteTemporelleDelta(arbre);
+    complexiteTemporelleDelta(originale);
     //arbre.compressionDelta(64);
     //arbre.afficher();
     compressee = arbre.exporter();
-    complexiteTemporelleExporter(arbre);
     compressee.sauver(IMAGEPATH+"zip-d64-"+fichier);
     
     cout << endl << "-------------------------------------------------" << endl;
@@ -152,7 +101,6 @@ int main()
     arbre.compressionDelta(3);
     //arbre.afficher();
     compressee = arbre.exporter();
-    complexiteTemporelleExporter(arbre);
     compressee.sauver(IMAGEPATH+"zip-d128-"+fichier);
 
     cout << endl << "-------------------------------------------------" << endl;
@@ -161,7 +109,6 @@ int main()
     arbre.compressionPhi(4);
     //arbre.afficher();
     compressee = arbre.exporter();
-    //complexiteTemporelleExporter(arbre);
     compressee.sauver(IMAGEPATH+"zip-p04-"+fichier);
     
     cout << endl << "-------------------------------------------------" << endl;
@@ -170,6 +117,5 @@ int main()
     arbre.compressionPhi(750);
     //arbre.afficher();
     compressee = arbre.exporter();
-    //complexiteTemporelleExporter(arbre);
     compressee.sauver(IMAGEPATH+"zip-p750-"+fichier);
 }

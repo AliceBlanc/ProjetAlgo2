@@ -22,7 +22,7 @@
  * À COMPLÉTER
 **/
 
-typedef std::map<int, std::set<void*>> MAP_LUMINESCENCE_TO_PATH ;
+typedef std::map<int, std::set<void*>> MAP_LUMINANCE_TO_NOEUD ;
 class QuadTree
 {
     public:
@@ -136,7 +136,7 @@ class QuadTree
 
         // Compression
         void compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud) ;
-        void rechercheLuminescences(Noeud*unNoeud, unsigned chemin, unsigned profondeur, MAP_LUMINESCENCE_TO_PATH &luminescences) ;
+        void rechercheLuminances(Noeud*unNoeud, unsigned chemin, unsigned profondeur, MAP_LUMINANCE_TO_NOEUD &luminescences) ;
 
         unsigned nbFeuilles(const Noeud* unNoeud) const ;
     
