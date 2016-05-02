@@ -30,13 +30,24 @@ QuadTree::QuadTree()
 QuadTree::~QuadTree()
 {
     for(int i = 0; i < 4; i++){
-        if(_racine.fils[i] != nullptr){
-            delete _racine.fils[i];
-            _racine.fils[i] = nullptr;
-        }
+        deleteNoeuds(_racine.fils[i]);
+        _racine.fils[i] = nullptr ;
     }
 }
 
+void QuadTree::deleteNoeuds(Noeud* unNoeud)
+{
+    if(unNoeud != nullptr) {
+        for(int i = 0 ; i < 4 ; ++i)
+        {
+            if(unNoeud->fils[i] != nullptr) {
+                deleteNoeuds(unNoeud->fils[i]) ;
+            }
+            unNoeud->fils[i] = nullptr ;
+        }
+        delete unNoeud ;
+    }
+}
 //------------------------------------------------------------------------------
 void QuadTree::afficher() const
 {
@@ -54,11 +65,10 @@ void QuadTree::afficher() const
 //------------------------------------------------------------------------------
 void QuadTree::importer(const ImagePNG & img)
 {
-    _taille = img.largeur() ; // par principe la largeur = longueur = 2^n
-    
+    assert(img.largeur()>0 && log2(img.largeur()) - int(log2(img.largeur())) == 0); //vérifie si la largeur de l'image est bien un multiple de 2
+    _taille = img.largeur() ;
     // Utilise une fonction privée récursive pour décomposer l'image en quadtree
     importerDepuis(img, 0, 0, _taille, &_racine);
-    
 }
 
 //------------------------------------------------------------------------------
@@ -99,17 +109,12 @@ ImagePNG QuadTree::exporter() const
 
 void QuadTree::exporterVers(ImagePNG& img, int x, int y, int taille, const Noeud* unNoeud) const
 {
-    if (taille > 1) {
+    if(unNoeud->fils[0] && unNoeud->fils[1] && unNoeud->fils[2] && unNoeud->fils[3]) {
         for(int i = 0 ; i < 4 ; ++i) {
-            if(unNoeud->fils[i]) {
-                exporterVers(img, x + ((i>>1)*(taille/2)), y + ((i&1)*taille/2), taille/2, unNoeud->fils[i] );
-            } else {
-                ecrirePixels(img, x, y, taille, unNoeud->rvb) ;
-            }
+            exporterVers(img, x + ((i>>1)*(taille/2)), y + ((i&1)*taille/2), taille/2, unNoeud->fils[i] );
         }
-
     } else {
-        // Si la taille est de 1, alors c'est un pixel. Ecrire le pixel et sa couleur.
+        // Si le nœud n'a pas de fils alors c'est un pixel. Ecrire le pixel et sa couleur.
         ecrirePixels(img, x, y, taille, unNoeud->rvb) ;
     }
 }
@@ -127,9 +132,6 @@ void QuadTree::ecrirePixels(ImagePNG& img, int x, int y, int taille, Couleur c) 
     }
 }
 
-bool QuadTree::estPere(Noeud unNoeud){
-    return unNoeud.fils[0]!=nullptr;
-}
 
 //------------------------------------------------------------------------------
 void QuadTree::compressionDelta(unsigned delta)
@@ -140,13 +142,13 @@ void QuadTree::compressionDelta(unsigned delta)
 void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
 {
     bool aDesPetitsEnfants = false;
-    for (auto f : unNoeud->fils)
+    for (Noeud* f : unNoeud->fils)
         aDesPetitsEnfants = aDesPetitsEnfants | (f != nullptr && (f->fils[0]!=nullptr || f->fils[1]!=nullptr || f->fils[2]!=nullptr || f->fils[3]!=nullptr)) ;
     
     if(aDesPetitsEnfants) // Si un noeud a des petits enfants (profondeur arbre sous-jacent > 2) alors recursion sur les fils
     {
         aDesPetitsEnfants = false ;
-        for(auto f : unNoeud->fils) {
+        for(Noeud* f : unNoeud->fils) {
             compressionDeltaRecurse(delta, f) ;
             // Refaire le calcul des petits enfants après la compression de l'arbre sous-jacent
             aDesPetitsEnfants = aDesPetitsEnfants | (f != nullptr && ( f->fils[0]!=nullptr || f->fils[1]!=nullptr || f->fils[2]!=nullptr || f->fils[3]!=nullptr)) ;
@@ -157,7 +159,7 @@ void QuadTree::compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud)
     
     if(! aDesPetitsEnfants) {// Verifier si l'arbre sous-jacent a des petits enfants (profondeur > 2)
         float max = 0.0 ;
-        for (auto f : unNoeud->fils) {
+        for (Noeud* f : unNoeud->fils) {
             float tmp = differenceLuminance(f->rvb, unNoeud->rvb) ;
             if(tmp > max)
                 max = tmp ;
@@ -180,7 +182,7 @@ unsigned QuadTree::nbFeuilles(const Noeud* unNoeud) const
         return 1 ;
     
     int nFils = 0 ;
-    for (auto f : unNoeud->fils) {
+    for (Noeud* f : unNoeud->fils) {
         if(f != nullptr)
             nFils += nbFeuilles(f) ;
     }
@@ -268,13 +270,13 @@ void QuadTree::rechercheLuminescences(Noeud* unNoeud,
     if (n != nullptr)
     {   // affichage du noeud
         cout << tabs << "- " << n << " de " << n->pere << " vers ";
-        for (auto f : n->fils)
+        for (Noeud* f : n->fils)
         {
             cout << f << " ";
         }
         cout << "RVB=" << n->rvb << endl;
         // et de ses fils récursivement
-        for (auto f : n->fils)
+        for (Noeud* f : n->fils)
         {
             afficher_rec(f,tabs+"   ");
         }

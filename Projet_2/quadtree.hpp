@@ -84,6 +84,13 @@ class QuadTree
         **/
         void compressionPhi(unsigned phi);
 
+    unsigned nbF() const{
+        return nbFeuilles(&_racine);
+    }
+    
+    unsigned T(){
+        return _taille;
+    }
 
     private:
     //////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +110,7 @@ class QuadTree
         
         // Noeud racine
         Noeud _racine;
-        
+    
     //////////////////////////////////////////////////////////////////////////////////////
     // Fonctionnalités internes simplifiant l'implémentation des méthodes
     //////////////////////////////////////////////////////////////////////////////////////
@@ -117,23 +124,24 @@ class QuadTree
         // Fonction statique réalisant l'affichage récursivement depuis le noeud *n
         static void afficher_rec(const Noeud * n, std::string tabs="");
 
-        // EN AJOUTER AU BESOIN ...
-        // Difference de luminescence
+        // Difference de luminance
         float differenceLuminance(const Couleur& couleurF, const Couleur& couleurN ) const ;
-        unsigned nbFeuilles(const Noeud* unNoeud) const ;
     
-        //Fonction importer depuis
+    
+        //Fonctions récursives
         void importerDepuis(const ImagePNG & img, int x, int y, int taille, Noeud* unNoeud);
         void exporterVers(ImagePNG& img, int x, int y, int taille, const Noeud* noeud) const;
+    
         void ecrirePixels(ImagePNG& img, int x, int y, int taille, Couleur c) const ;
 
-        //Fonction estPere
-        bool estPere(Noeud unNoeud);
-    
-    
         // Compression
         void compressionDeltaRecurse(unsigned int delta, Noeud* unNoeud) ;
         void rechercheLuminescences(Noeud*unNoeud, unsigned chemin, unsigned profondeur, MAP_LUMINESCENCE_TO_PATH &luminescences) ;
+
+        unsigned nbFeuilles(const Noeud* unNoeud) const ;
+    
+        // Suppression
+        void deleteNoeuds(Noeud* unNoeud) ;
 
 
 };
